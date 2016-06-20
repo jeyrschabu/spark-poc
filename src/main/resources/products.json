@@ -1,0 +1,12 @@
+[
+  {
+    "name" : "Product 1",
+    "category": "Product Category",
+    "price" : 1000
+  },
+  {
+    "name" : "Product 2",
+    "category": "Product Category 2",
+    "price" : 999
+  }
+]
