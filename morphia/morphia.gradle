@@ -1,0 +1,13 @@
+group 'com.jeyrs.spark'
+version '1.0'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  compile project(":core")
+  compile group: 'org.mongodb.morphia', name: 'morphia', version: '1.1.0'
+}
