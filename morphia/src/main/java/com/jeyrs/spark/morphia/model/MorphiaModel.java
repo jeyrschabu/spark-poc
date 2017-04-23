@@ -1,5 +1,6 @@
-package com.jeyrs.spark.model;
+package com.jeyrs.spark.morphia.model;
 
+import com.jeyrs.spark.model.Model;
 import org.mongodb.morphia.annotations.Id;
 
 public class MorphiaModel implements Model {

@@ -15,7 +15,8 @@ public class DataProviderFacade<T extends Model> {
         final Datastore datastore = morphia.createDatastore(config.getMongoClient(), config.getDatabaseName());
         datastore.ensureIndexes();
 
-        return new MorphiaProvider<>(datastore, clazz);
+//        return new MorphiaProvider<>(datastore, clazz);
+      return null; //TODO: implement
     }
 
     public ModelProvider<T> get(MongoConnectionConfig config, Class<T> clazz) {

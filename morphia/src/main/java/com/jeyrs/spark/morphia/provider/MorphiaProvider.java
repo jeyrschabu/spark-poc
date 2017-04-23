@@ -1,6 +1,7 @@
-package com.jeyrs.spark.provider;
+package com.jeyrs.spark.morphia.provider;
 
 import com.jeyrs.spark.model.Model;
+import com.jeyrs.spark.provider.DataProvider;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
