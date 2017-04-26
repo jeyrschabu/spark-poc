@@ -1,9 +1,11 @@
 package com.jeyrs.spark.morphia.model;
 
-import com.jeyrs.spark.model.Model;
+import com.jeyrs.spark.model.BaseProduct;
+import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
-public class MorphiaModel implements Model {
+@Entity("products")
+public class Product implements BaseProduct {
   @Id
   private String id;
 

@@ -1,5 +1,6 @@
 package com.jeyrs.spark.models
 
+import com.jeyrs.spark.model.Model
 import org.bson.types.ObjectId
 import spock.lang.Specification
 

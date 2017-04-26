@@ -1,12 +1,10 @@
-package com.jeyrs.spark.models;
+package com.jeyrs.spark.model;
 
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.mongodb.morphia.annotations.Entity;
-
-import java.util.List;
 
 @Entity("products")
 public class Product extends Model {

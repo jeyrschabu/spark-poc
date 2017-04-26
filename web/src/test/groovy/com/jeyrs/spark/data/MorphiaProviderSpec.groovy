@@ -1,8 +1,5 @@
 package com.jeyrs.spark.data
 
-import com.jeyrs.spark.models.Product
-import org.mongodb.morphia.Datastore
-import org.mongodb.morphia.query.Query
 import spock.lang.Specification
 
 
@@ -10,10 +7,10 @@ class MorphiaProviderSpec extends Specification {
 //    def 'should find all documents '() {
 //        given:
 //            def dataStore = Mock(Datastore);
-//            def provider = new MorphiaProvider(dataStore, Product.class)
+//            def provider = new MorphiaProvider(dataStore, BaseProduct.class)
 //            def query = Mock(Query)
-//            dataStore.createQuery(Product.class) >> query
-//            query.asList() >> [ new Product() ]
+//            dataStore.createQuery(BaseProduct.class) >> query
+//            query.asList() >> [ new BaseProduct() ]
 //        expect:
 //            provider.findAll().size() == 1
 //    }

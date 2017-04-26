@@ -1,7 +1,7 @@
 package com.jeyrs.spark.data
 
 import com.mongodb.MongoClient
-import com.jeyrs.spark.models.Model
+import com.jeyrs.spark.model.Model
 import spock.lang.Specification
 
 
