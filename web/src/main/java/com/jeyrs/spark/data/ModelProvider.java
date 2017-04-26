@@ -1,6 +1,6 @@
 package com.jeyrs.spark.data;
 
-import com.jeyrs.spark.models.Model;
+import com.jeyrs.spark.model.Model;
 
 import java.util.List;
 

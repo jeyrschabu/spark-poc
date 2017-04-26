@@ -2,7 +2,7 @@ package com.jeyrs.spark.data;
 
 
 import com.jeyrs.spark.constants.ApplicationConstants;
-import com.jeyrs.spark.models.Model;
+import com.jeyrs.spark.model.Model;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 

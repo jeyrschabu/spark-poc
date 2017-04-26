@@ -1,4 +1,4 @@
-package com.jeyrs.spark.models;
+package com.jeyrs.spark.model;
 
 import org.mongodb.morphia.annotations.Id;
 
