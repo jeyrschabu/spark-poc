@@ -2,7 +2,6 @@ package com.jeyrs.spark;
 
 import com.jeyrs.spark.configuration.ApplicationConfig;
 import com.jeyrs.spark.morphia.provider.ProductProvider;
-import com.jeyrs.spark.resources.HomeResource;
 import com.jeyrs.spark.resources.ProductResource;
 import com.jeyrs.spark.services.ProductService;
 import org.aeonbits.owner.ConfigFactory;
@@ -33,6 +32,5 @@ public class Main implements SparkApplication {
 
     // Step 1: init resources
     new ProductResource(productService, new ObjectMapper());
-    new HomeResource();
   }
 }

@@ -16,6 +16,11 @@ public class ProductResource extends GeneralResource {
     routes();
   }
 
+  @Override
+  ObjectMapper getObjectMapper() {
+    return objectMapper;
+  }
+
   protected void routes() {
     // Read All
     get(CONTEXT + "/products", (request, response) -> this.productService.findAll(), json());
