@@ -1,7 +1,7 @@
 package com.jeyrs.spark.services
 
 import com.jeyrs.spark.data.ModelProvider
-import com.jeyrs.spark.model.BaseProduct
+import com.jeyrs.spark.model.Product
 import spock.lang.Specification
 
 class ProductServiceSpec extends Specification{
@@ -12,7 +12,7 @@ class ProductServiceSpec extends Specification{
             ProductService productService = new ProductService()
             productService.modelProvider =  provider
 
-            provider.findAll() >> [new BaseProduct()]
+            provider.findAll() >> [new Product()]
         when:
             def result = productService.findAll()
         then:

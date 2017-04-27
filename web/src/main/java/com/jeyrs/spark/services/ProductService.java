@@ -1,7 +1,7 @@
 package com.jeyrs.spark.services;
 
-import com.jeyrs.spark.model.BaseProduct;
-import com.jeyrs.spark.morphia.model.Product;
+import com.jeyrs.spark.model.Product;
+import com.jeyrs.spark.morphia.model.MorphiaProduct;
 import com.jeyrs.spark.morphia.provider.ProductProvider;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class ProductService {
     this.provider = provider;
   }
 
-  public BaseProduct create(Product product) {
+  public Product create(Product product) {
     return provider.update(product);
   }
 

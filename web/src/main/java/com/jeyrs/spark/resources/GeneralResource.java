@@ -10,10 +10,10 @@ import spark.ResponseTransformer;
 import static spark.Spark.before;
 import static spark.Spark.exception;
 
-public abstract class GeneralResource implements ApplicationConstants {
+abstract class GeneralResource implements ApplicationConstants {
     static final Logger LOGGER = LoggerFactory.getLogger(GeneralResource.class);
 
-    public GeneralResource() {
+    GeneralResource() {
         before("/*", (request, response) -> filterRequest(request)); //before filter
 
         //exception handling
