@@ -2,10 +2,6 @@ package com.jeyrs.spark.configuration;
 
 import org.aeonbits.owner.Config;
 
-/**
- * Created by jkiluf on 4/13/16.
- */
-
 @Config.Sources({"file:${CONFIG_FILE}"})
 public interface ApplicationConfig extends Config {
 

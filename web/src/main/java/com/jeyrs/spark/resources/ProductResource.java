@@ -1,31 +1,46 @@
 package com.jeyrs.spark.resources;
 
+import com.jeyrs.spark.model.Product;
 import com.jeyrs.spark.services.ProductService;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import static spark.Spark.*;
 
 public class ProductResource extends GeneralResource {
-    private final ProductService productService;
+  private final ProductService productService;
+  private final ObjectMapper objectMapper;
 
-    public ProductResource(ProductService productService) {
-        this.productService = productService;
-        routes();
-    }
+  public ProductResource(ProductService productService, ObjectMapper objectMapper) {
+    this.productService = productService;
+    this.objectMapper = objectMapper;
+    routes();
+  }
 
-    protected void routes() {
-        // Read All
-        get(CONTEXT+"/products", (request, response) -> this.productService.findAll(), json());
+  @Override
+  ObjectMapper getObjectMapper() {
+    return objectMapper;
+  }
 
-        // Read One
-        get(CONTEXT+"/products/:id", (request, response) -> this.productService.find(request.params(":id")), json());
+  protected void routes() {
+    // Read All
+    get(CONTEXT + "/products", (request, response) -> this.productService.findAll(), json());
 
-        // Create
-        post(CONTEXT+"/products", (request, response) -> this.productService.create(request.body()), json());
+    // Read One
+    get(CONTEXT + "/products/:id", (request, response) -> this.productService.find(request.params(":id")), json());
 
-        // Update
-        put(CONTEXT + "/products/:id", (request, response) -> this.productService.update(request.body()), json());
+    // Create
+    post(CONTEXT + "/products", (request, response) -> {
+      Product product = objectMapper.readValue(request.body(), Product.class);
+      return this.productService.create(product);
+    }, json());
 
-        // Delete
-        delete(CONTEXT + "/products/:id", (request, response) -> this.productService.remove(request.params(":id")), json());
-    }
+    // Update
+    put(CONTEXT + "/products/:id", (request, response) -> {
+      Product product = objectMapper.readValue(request.body(), Product.class);
+      return this.productService.update(product);
+    } , json());
+
+    // Delete
+    delete(CONTEXT + "/products/:id", (request, response) -> this.productService.remove(request.params(":id")), json());
+  }
 }

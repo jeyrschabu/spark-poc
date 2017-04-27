@@ -15,11 +15,11 @@ import org.mongodb.morphia.query.Query;
 import java.util.Collections;
 import java.util.List;
 
-public class MorphiaProvider<T extends Model> implements DataProvider<T> {
+class MorphiaProvider<T extends Model> implements DataProvider<T> {
   private Datastore datastore;
   private final Class<T> clazz;
 
-  public MorphiaProvider(DatabaseConfig config,  Class<T> clazz) {
+  MorphiaProvider(DatabaseConfig config,  Class<T> clazz) {
     MongoClient mongoClient = new MongoClient();
 
     if (StringUtils.isNotEmpty(config.getDatabase()) && StringUtils.isNotEmpty(config.getPassword())) {
