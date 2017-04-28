@@ -1,6 +1,9 @@
-package com.jeyrs.spark;
+package com.jeyrs.spark.morphia;
 
-public class DatabaseConfig {
+import com.jeyrs.spark.StorageConfig;
+
+public class MongoConfig implements StorageConfig {
+  static final String MODELS_PACKAGE = "com.jeyrs.spark.models";
   String database;
   String username;
   String password;
@@ -10,7 +13,7 @@ public class DatabaseConfig {
     return database;
   }
 
-  public DatabaseConfig withDatabase(String database) {
+  public MongoConfig withDatabase(String database) {
     this.database = database;
     return this;
   }
@@ -19,7 +22,7 @@ public class DatabaseConfig {
     return password;
   }
 
-  public DatabaseConfig withPassword(String password) {
+  public MongoConfig withPassword(String password) {
     this.password = password;
     return this;
   }
@@ -28,7 +31,12 @@ public class DatabaseConfig {
     return host;
   }
 
-  public DatabaseConfig withHost(String host) {
+  @Override
+  public String getModelPackageName() {
+    return MODELS_PACKAGE;
+  }
+
+  public MongoConfig withHost(String host) {
     this.host = host;
     return this;
   }
@@ -37,7 +45,7 @@ public class DatabaseConfig {
     return username;
   }
 
-  public DatabaseConfig withUsername(String username) {
+  public MongoConfig withUsername(String username) {
     this.username = username;
     return this;
   }
