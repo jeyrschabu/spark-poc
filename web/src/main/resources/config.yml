@@ -1,0 +1,8 @@
+databases:
+  - name: mongo
+    enabled: true
+    name: "sparc-poc"
+    host: "http://localhost"
+    port: 27017
+    username: ""
+    password: ""
