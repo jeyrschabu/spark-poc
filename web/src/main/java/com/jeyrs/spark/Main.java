@@ -1,32 +1,50 @@
 package com.jeyrs.spark;
 
-import com.jeyrs.spark.configuration.ApplicationConfig;
+import com.jeyrs.spark.configuration.AppConfig;
+import com.jeyrs.spark.morphia.MongoConfig;
 import com.jeyrs.spark.morphia.provider.ProductProvider;
 import com.jeyrs.spark.resources.ProductResource;
 import com.jeyrs.spark.services.ProductService;
-import org.aeonbits.owner.ConfigFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.yaml.snakeyaml.Yaml;
 import spark.servlet.SparkApplication;
 
-import static com.jeyrs.spark.constants.ApplicationConstants.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Main implements SparkApplication {
-  private ApplicationConfig serverConfig = ConfigFactory.create(ApplicationConfig.class);
-
   public void init() {
-    new Main().initWithRoutes();
+    try {
+      new Main().initWithRoutes();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void main(String[] args) {
-    new Main().initWithRoutes();
+    try {
+      new Main().initWithRoutes();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  private void initWithRoutes() {
-    DatabaseConfig databaseConfig = new DatabaseConfig()
-      .withDatabase(serverConfig.db() == null ? DEFAULT_DB : serverConfig.db())
-      .withUsername(serverConfig.dbUser())
-      .withPassword(serverConfig.dbPass())
-      .withHost(serverConfig.dbHost() == null ? DEFAULT_HOST : serverConfig.dbHost());
+  private void initWithRoutes() throws IOException {
+    InputStream stream = getClass().getClassLoader().getResourceAsStream("config.yml");
+    AppConfig config = new Yaml().loadAs(stream, AppConfig.class);
+    AppConfig.Database database = config.getDatabases()
+      .stream()
+      .filter(AppConfig.Database::getEnabled)
+      .findFirst()
+      .orElseThrow(
+        () -> new IllegalArgumentException("Failed to find suitable configured database")
+      );
+
+    StorageConfig databaseConfig = new MongoConfig()
+      .withDatabase(database.getName())
+      .withUsername(database.getUsername())
+      .withPassword(database.getPassword())
+      .withHost(database.getHost());
 
     final ProductService productService = new ProductService(new ProductProvider(databaseConfig));
 

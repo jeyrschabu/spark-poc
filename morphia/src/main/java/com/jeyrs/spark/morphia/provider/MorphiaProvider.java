@@ -1,6 +1,7 @@
 package com.jeyrs.spark.morphia.provider;
 
-import com.jeyrs.spark.DatabaseConfig;
+import com.jeyrs.spark.StorageConfig;
+import com.jeyrs.spark.morphia.MongoConfig;
 import com.jeyrs.spark.model.Model;
 import com.jeyrs.spark.provider.DataProvider;
 import com.mongodb.MongoClient;
@@ -19,13 +20,13 @@ class MorphiaProvider<T extends Model> implements DataProvider<T> {
   private Datastore datastore;
   private final Class<T> clazz;
 
-  MorphiaProvider(DatabaseConfig config,  Class<T> clazz) {
+  MorphiaProvider(StorageConfig config, Class<T> clazz) {
     MongoClient mongoClient = new MongoClient();
-
-    if (StringUtils.isNotEmpty(config.getDatabase()) && StringUtils.isNotEmpty(config.getPassword())) {
+    String database = ((MongoConfig) config).getDatabase();
+    if (StringUtils.isNotEmpty(database) && StringUtils.isNotEmpty(config.getPassword())) {
       MongoCredential credential = MongoCredential.createCredential(
         config.getUsername(),
-        config.getDatabase(),
+        database,
         config.getPassword().toCharArray()
       );
 
@@ -33,8 +34,8 @@ class MorphiaProvider<T extends Model> implements DataProvider<T> {
     }
 
     Morphia morphia = new Morphia();
-    morphia.mapPackage("com.jeyrs.spark.model");
-    this.datastore = morphia.createDatastore(mongoClient, config.getDatabase());
+    morphia.mapPackage(config.getModelPackageName());
+    this.datastore = morphia.createDatastore(mongoClient, database);
     datastore.ensureIndexes();
     this.clazz = clazz;
   }
