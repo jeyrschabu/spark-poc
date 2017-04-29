@@ -6,7 +6,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import static spark.Spark.*;
 
-public class ProductResource extends GeneralResource {
+public class ProductResource extends BaseResource {
   private final ProductService productService;
   private final ObjectMapper objectMapper;
 

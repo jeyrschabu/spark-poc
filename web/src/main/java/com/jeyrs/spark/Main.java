@@ -6,6 +6,8 @@ import com.jeyrs.spark.morphia.provider.ProductProvider;
 import com.jeyrs.spark.resources.ProductResource;
 import com.jeyrs.spark.services.ProductService;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import spark.servlet.SparkApplication;
 
@@ -13,20 +15,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Main implements SparkApplication {
+  static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
   public void init() {
-    try {
-      new Main().initWithRoutes();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    LOGGER.info("Starting application");
   }
 
   public static void main(String[] args) {
     try {
       new Main().initWithRoutes();
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.error("Error starting app");
     }
+
   }
 
   private void initWithRoutes() throws IOException {
