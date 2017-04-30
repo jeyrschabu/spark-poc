@@ -63,6 +63,20 @@ public class Main implements SparkApplication {
       new RedisProvider<>(redisConfig, RedisProduct.class, new ObjectMapper())
     );
 
+    productService2.create(
+      new RedisProduct()
+        .withCategory("Test category")
+        .withPrice(10.0)
+        .withName("test product")
+    );
+
+    productService2.create(
+      new RedisProduct()
+        .withCategory("Test category 2")
+        .withPrice(12.0)
+        .withName("test product 2")
+    );
+
     List<RedisProduct> productList = productService2.findAll();
 
     // Step 1: init resources

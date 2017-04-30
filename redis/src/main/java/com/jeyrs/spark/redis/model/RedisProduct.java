@@ -6,19 +6,20 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class RedisProduct implements Product {
+  private String id;
+  private String name;
+  private String category;
+  private Double price;
+
   @Override
   public String getId() {
-    return null;
+    return this.getName() + ":" + this.getCategory() + ":" + this.getPrice();
   }
 
   @Override
   public void setId(String id) {
-
+    this.id = id;
   }
-
-  private String name;
-  private String category;
-  private Double price;
 
   public void setName(String name) {
     this.name = name;
@@ -28,7 +29,7 @@ public class RedisProduct implements Product {
     return name;
   }
 
-  public String getGetCategory() {
+  public String getCategory() {
     return this.category;
   }
 
@@ -57,5 +58,20 @@ public class RedisProduct implements Product {
   @Override
   public String toString() {
     return ToStringBuilder.reflectionToString(this);
+  }
+
+  public RedisProduct withCategory(String category) {
+    this.setCategory(category);
+    return this;
+  }
+
+  public RedisProduct withPrice(Double price) {
+    setPrice(price);
+    return this;
+  }
+
+  public RedisProduct withName(String name) {
+    setName(name);
+    return this;
   }
 }
