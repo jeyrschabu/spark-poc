@@ -2,7 +2,8 @@ package com.jeyrs.spark;
 
 import com.jeyrs.spark.configuration.AppConfig;
 import com.jeyrs.spark.morphia.MongoConfig;
-import com.jeyrs.spark.morphia.provider.ProductProvider;
+import com.jeyrs.spark.morphia.model.MorphiaProduct;
+import com.jeyrs.spark.morphia.provider.MorphiaProvider;
 import com.jeyrs.spark.resources.ProductResource;
 import com.jeyrs.spark.services.ProductService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -46,7 +47,9 @@ public class Main implements SparkApplication {
       .withPassword(database.getPassword())
       .withHost(database.getHost());
 
-    final ProductService productService = new ProductService(new ProductProvider(databaseConfig));
+    final ProductService<MorphiaProduct> productService = new ProductService<>(
+      new MorphiaProvider<>(databaseConfig, MorphiaProduct.class)
+    );
 
     // Step 1: init resources
     new ProductResource(productService, new ObjectMapper());
