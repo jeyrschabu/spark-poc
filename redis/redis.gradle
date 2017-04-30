@@ -1,0 +1,13 @@
+group 'com.jeyrs.spark'
+version '1.0'
+
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile project(":core")
+  compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+}

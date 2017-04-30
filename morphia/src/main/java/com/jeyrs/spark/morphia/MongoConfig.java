@@ -3,11 +3,11 @@ package com.jeyrs.spark.morphia;
 import com.jeyrs.spark.StorageConfig;
 
 public class MongoConfig implements StorageConfig {
-  static final String MODELS_PACKAGE = "com.jeyrs.spark.models";
-  String database;
-  String username;
-  String password;
-  String host;
+  public static final String MODELS_PACKAGE = "com.jeyrs.spark.morphia.models";
+  private String database;
+  private String username;
+  private String password;
+  private String host;
 
   public String getDatabase() {
     return database;
@@ -31,11 +31,6 @@ public class MongoConfig implements StorageConfig {
     return host;
   }
 
-  @Override
-  public String getModelPackageName() {
-    return MODELS_PACKAGE;
-  }
-
   public MongoConfig withHost(String host) {
     this.host = host;
     return this;
@@ -43,6 +38,10 @@ public class MongoConfig implements StorageConfig {
 
   public String getUsername() {
     return username;
+  }
+
+  public String getModelPackageName() {
+    return MODELS_PACKAGE;
   }
 
   public MongoConfig withUsername(String username) {
