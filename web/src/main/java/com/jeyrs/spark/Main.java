@@ -1,12 +1,8 @@
 package com.jeyrs.spark;
 
 import com.jeyrs.spark.configuration.AppConfig;
-import com.jeyrs.spark.morphia.MongoConfig;
 import com.jeyrs.spark.morphia.model.MorphiaProduct;
-import com.jeyrs.spark.morphia.provider.MorphiaProvider;
-import com.jeyrs.spark.redis.RedisConfig;
 import com.jeyrs.spark.redis.model.RedisProduct;
-import com.jeyrs.spark.redis.provider.RedisProvider;
 import com.jeyrs.spark.resources.ProductResource;
 import com.jeyrs.spark.services.ProductService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -37,38 +33,13 @@ public class Main implements SparkApplication {
     AppConfig config = new Yaml().loadAs(stream, AppConfig.class);
 
     ObjectMapper objectMapper = new ObjectMapper();
-    ProductService<MorphiaProduct> morphiaProductService = new ProductService<>(mongoProvider(config));
-    ProductService<RedisProduct> redisProductService = new ProductService<>(redisProvider(config));
+    ProviderFacade providerFacade = new ProviderFacade(config, objectMapper);
+
+    ProductService<MorphiaProduct> morphiaProductService = new ProductService<>(providerFacade.mongo(MorphiaProduct.class));
+    ProductService<RedisProduct> redisProductService = new ProductService<>(providerFacade.redis(RedisProduct.class));
 
     // Step 1: init resources
     new ProductResource("/morphia", morphiaProductService, objectMapper);
     new ProductResource("/redis", redisProductService, objectMapper);
-  }
-
-  private RedisProvider<RedisProduct> redisProvider(AppConfig config) {
-    RedisConfig redisConfig = new RedisConfig()
-      .withConnection(getDatabase(config, "redis").getHost());
-    return new RedisProvider<>(redisConfig, RedisProduct.class, new ObjectMapper());
-  }
-
-  private MorphiaProvider<MorphiaProduct> mongoProvider(AppConfig config) {
-    AppConfig.Database database = getDatabase(config, "mongo");
-    MongoConfig mongoConfig = new MongoConfig()
-      .withDatabase(database.getName())
-      .withUsername(database.getUsername())
-      .withPassword(database.getPassword())
-      .withHost(database.getHost());
-
-    return new MorphiaProvider<>(mongoConfig, MorphiaProduct.class);
-  }
-
-  private AppConfig.Database getDatabase(AppConfig config, String name) {
-    return config.getDatabases()
-      .stream()
-      .filter(db -> db.getName().equals(name) && db.getEnabled())
-      .findFirst()
-      .orElseThrow(
-        () -> new IllegalArgumentException("Failed to find suitable configured database")
-      );
   }
 }
