@@ -1,6 +1,6 @@
-Spark poc
+Spark POC
 ----------------------------------------------------------
-Spark tiny web framework
+A spark service Proof Of Concept:
 
+* With Redis & Mongo data providers
 * [Spark docs](http://sparkjava.com/documentation.html)
-* [Morphia](https://github.com/mongodb/morphia)
