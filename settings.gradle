@@ -1,6 +1,6 @@
 rootProject.name = 'spark-poc'
 
-include 'core', 'web', 'morphia'
+include 'core', 'web', 'morphia' , 'redis'
 
 def setBuildFile(project) {
   project.buildFileName = "${project.name}.gradle"
@@ -12,5 +12,4 @@ def setBuildFile(project) {
 rootProject.children.each {
   setBuildFile(it)
 }
-include 'redis'
 

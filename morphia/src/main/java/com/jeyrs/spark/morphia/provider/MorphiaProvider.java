@@ -20,8 +20,17 @@ public class MorphiaProvider<T extends Model> implements DataProvider<T> {
   private final Class<T> clazz;
 
   public MorphiaProvider(MongoConfig config, Class<T> clazz) {
-    MongoClient mongoClient = new MongoClient();
+    this.datastore = createDatastore(config, getMongoClient(config), new Morphia());
+    this.clazz = clazz;
+  }
 
+  public MorphiaProvider(Datastore datastore, Class<T> clazz) {
+    this.clazz = clazz;
+    this.datastore = datastore;
+  }
+
+  private MongoClient getMongoClient(MongoConfig config) {
+    MongoClient mongoClient = new MongoClient();
     if (StringUtils.isNotEmpty(config.getDatabase()) && StringUtils.isNotEmpty(config.getPassword())) {
       MongoCredential credential = MongoCredential.createCredential(
         config.getUsername(),
@@ -32,11 +41,16 @@ public class MorphiaProvider<T extends Model> implements DataProvider<T> {
       mongoClient = new MongoClient(new ServerAddress(config.getHost()), Collections.singletonList(credential));
     }
 
-    Morphia morphia = new Morphia();
+    return mongoClient;
+  }
+
+  private Datastore createDatastore(MongoConfig config,
+                                    MongoClient mongoClient,
+                                    Morphia morphia) {
     morphia.mapPackage(config.getModelPackageName());
-    this.datastore = morphia.createDatastore(mongoClient, config.getDatabase());
+    Datastore datastore = morphia.createDatastore(mongoClient, config.getDatabase());
     datastore.ensureIndexes();
-    this.clazz = clazz;
+    return datastore;
   }
 
   public List<T> findAll() {
