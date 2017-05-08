@@ -19,6 +19,7 @@ public class AppConfig {
     Integer port;
     String username;
     String password;
+    String type;
 
     public Boolean getEnabled() {
       return enabled;
@@ -66,6 +67,14 @@ public class AppConfig {
 
     public void setName(String name) {
       this.name = name;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public void setType(String type) {
+      this.type = type;
     }
   }
 }

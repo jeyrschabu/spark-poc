@@ -1,6 +1,6 @@
 databases:
-  - name: mongo
-    enabled: false
+  - type: mongo
+    enabled: true
     name: "spark-poc"
     host: "http://localhost"
     port: 27017
@@ -8,5 +8,6 @@ databases:
     password: ""
 
   - name: redis
+    type: redis
     enabled: true
     host: "localhost"

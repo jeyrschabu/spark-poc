@@ -19,10 +19,10 @@ class ProviderFacade {
     this.objectMapper = objectMapper;
   }
 
-  private AppConfig.Database getDatabase(AppConfig config, String name) {
+  private AppConfig.Database getDatabase(AppConfig config, String databaseType) {
     return config.getDatabases()
       .stream()
-      .filter(db -> db.getName().equals(name) && db.getEnabled())
+      .filter(db -> db.getType().equals(databaseType) && db.getEnabled())
       .findFirst()
       .orElseThrow(
         () -> new IllegalArgumentException("Failed to find suitable configured database")
