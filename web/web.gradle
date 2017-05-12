@@ -11,7 +11,6 @@ repositories {
 
 
 dependencies {
-  compile project(":core")
   compile project(":morphia")
   compile project(":redis")
   compile group: 'com.google.guava', name: 'guava', version: '18.0'
@@ -35,12 +34,6 @@ dependencies {
   // allows mocking of classes without default constructor (together with CGLIB)
 }
 
-configurations {
-  remoteSources {
-    transitive false
-  }
-}
-
 war {
   baseName = 'spark-poc'
 }
@@ -50,8 +43,6 @@ dependencies {
 }
 
 task stage(dependsOn: ['prepareWebRunner', 'war'])
-
-
 
 
 task prepareWebRunner(type: Copy) {
