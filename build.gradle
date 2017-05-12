@@ -6,13 +6,6 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
 
-    test {
-        testLogging {
-            exceptionFormat = 'full'
-        }
-    }
-
-
     task wrapper(type: Wrapper) {
         gradleVersion = '2.4'
     }
