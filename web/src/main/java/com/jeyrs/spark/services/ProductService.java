@@ -4,6 +4,7 @@ import com.jeyrs.spark.model.Product;
 import com.jeyrs.spark.provider.DataProvider;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ProductService<T extends Product> {
   private DataProvider<T> provider;
@@ -12,6 +13,7 @@ public class ProductService<T extends Product> {
   }
 
   public T create(T product) {
+    product.setId(UUID.randomUUID().toString());
     return provider.update(product);
   }
 

@@ -13,7 +13,7 @@ public class RedisProduct implements Product {
 
   @Override
   public String getId() {
-    return this.getName() + ":" + this.getCategory() + ":" + this.getPrice();
+    return this.id;
   }
 
   @Override

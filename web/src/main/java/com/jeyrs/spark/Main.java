@@ -13,6 +13,7 @@ import spark.servlet.SparkApplication;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class Main implements SparkApplication {
   private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -37,6 +38,18 @@ public class Main implements SparkApplication {
 
     ProductService<MorphiaProduct> morphiaProductService = new ProductService<>(providerFacade.mongo(MorphiaProduct.class));
     ProductService<RedisProduct> redisProductService = new ProductService<>(providerFacade.redis(RedisProduct.class));
+
+    redisProductService
+      .findAll()
+      .forEach(r -> redisProductService.remove(r.getId()));
+
+    redisProductService
+      .create(new RedisProduct().withCategory("Category").withName("test product"));
+
+    List<RedisProduct> redisProducts = redisProductService.findAll();
+
+    RedisProduct product = redisProductService.find(redisProducts.get(0).getId());
+    LOGGER.debug("found {}", product.getName());
 
     // Step 1: init resources
     new ProductResource("/morphia", morphiaProductService, objectMapper);
