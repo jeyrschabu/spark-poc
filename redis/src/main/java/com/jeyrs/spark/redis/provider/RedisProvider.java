@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RedisProvider<T extends Model> implements DataProvider<T> {
+  private static final String KEY = "redis:products";
   private static final Logger LOGGER = LoggerFactory.getLogger(RedisProvider.class);
   private JedisPool jedisPool;
   private Class<T> clazz;
@@ -32,19 +33,14 @@ public class RedisProvider<T extends Model> implements DataProvider<T> {
   @Override
   public List<T> findAll() {
     try (Jedis jedis = jedisPool.getResource()) {
-      String prefix = clazz.getSimpleName().toLowerCase();
+      List<String> all = jedis.hgetAll(key()).entrySet()
+        .stream()
+        .map(Map.Entry::getValue)
+        .collect(Collectors.toList());
 
-      if (!jedis.hgetAll(prefix).isEmpty()) {
-        Map<String, String> map = jedis.hgetAll(prefix);
-        List<String> result = map.entrySet()
-          .stream()
-          .map(Map.Entry::getValue)
-          .collect(Collectors.toList());
-
-        JavaType type = objectMapper.getTypeFactory().
-          constructCollectionType(List.class, clazz);
-        return objectMapper.readValue(result.toString(), type);
-      }
+      JavaType type = objectMapper.getTypeFactory().
+        constructCollectionType(List.class, clazz);
+      return objectMapper.readValue(all.toString(), type);
     } catch (IOException e) {
       LOGGER.error("error", e);
     }
@@ -59,6 +55,12 @@ public class RedisProvider<T extends Model> implements DataProvider<T> {
 
   @Override
   public T findById(String id) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      return objectMapper.readValue(jedis.hget(key(), id), clazz);
+    } catch (IOException e) {
+      LOGGER.error("error", e);
+    }
+
     return null;
   }
 
@@ -74,18 +76,23 @@ public class RedisProvider<T extends Model> implements DataProvider<T> {
 
   @Override
   public boolean delete(String id) {
-    return false;
+    try (Jedis jedis = jedisPool.getResource()) {
+      return jedis.hdel(key(), id) > 0;
+    }
   }
 
   @Override
   public T update(T model) {
     try (Jedis jedis = jedisPool.getResource()) {
-      String prefix = clazz.getSimpleName().toLowerCase();
-      jedis.hset(prefix, model.getId(), objectMapper.writeValueAsString(model));
+      jedis.hset(key(), model.getId(), objectMapper.writeValueAsString(model));
     } catch (IOException e) {
       LOGGER.error("error", e);
     }
 
     return model;
+  }
+
+  private String key() {
+    return KEY + ":" + clazz.getSimpleName().toLowerCase();
   }
 }
